@@ -1,6 +1,5 @@
 ﻿@page "/"
-@using BlazorMoviesApp.Components.Models
-@using BlazorMoviesApp.Services
+@* attribute [StreamRendering(true)] *@
 @inject IMovieReviewService MovieReviewService
 
 <PageTitle>Index</PageTitle>
@@ -20,19 +19,7 @@ else
         <div class="row">
             @foreach (MovieModel movie in movieGroup)
             {
-                <div class="col-md-3 mb-2">
-                    <a href="/MovieReview/@movie?.Id">
-                        <img class="img-thumbnail" src="@movie?.ImageUrl" />
-                        <div class="card-body">
-                            <h5>
-                                @movie?.Title
-                            </h5>
-                            <p class="card-text">
-                                <b>@movie?.Description</b>
-                            </p>
-                        </div>
-                    </a>
-                </div>
+               <MovieItem Movie = "@movie"/>
             }
         </div>
     }
@@ -43,6 +30,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        await Task.Delay(1500);
         Movies = MovieReviewService?.GetMovies();
     }
 }
