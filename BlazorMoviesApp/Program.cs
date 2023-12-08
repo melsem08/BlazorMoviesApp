@@ -1,11 +1,15 @@
 using BlazorMoviesApp.Components;
+using BlazorMoviesApp.Data;
 using BlazorMoviesApp.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddDbContextPool<MovieReviewDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MovieReviewDbConnection")));
 
 builder.Services.AddScoped<IMovieReviewService, MovieReviewService>();
 

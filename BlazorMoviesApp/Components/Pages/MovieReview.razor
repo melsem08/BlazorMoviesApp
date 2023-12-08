@@ -29,7 +29,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         await Task.Delay(1000);
-        MovieItem = MovieReviewService?.GetMovieById(Id);
+        MovieItem = await MovieReviewService.GetMovieById(Id);
 
     }
 
