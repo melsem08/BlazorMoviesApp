@@ -1,0 +1,48 @@
+﻿@page "/"
+@using BlazorMoviesApp.Components.Models
+@using BlazorMoviesApp.Services
+@inject IMovieReviewService MovieReviewService
+
+<PageTitle>Index</PageTitle>
+
+<h1>First Movies Library</h1>
+
+@if (Movies is null)
+{
+    <h1>Loading movies...</h1>
+}
+else
+{
+    @for (int i = 0; i <= Movies.Count / 4; i++)
+    {
+        MovieModel[] movieGroup = Movies.Skip(i * 4).Take(4).ToArray();
+
+        <div class="row">
+            @foreach (MovieModel movie in movieGroup)
+            {
+                <div class="col-md-3 mb-2">
+                    <a href="/MovieReview/@movie?.Id">
+                        <img class="img-thumbnail" src="@movie?.ImageUrl" />
+                        <div class="card-body">
+                            <h5>
+                                @movie?.Title
+                            </h5>
+                            <p class="card-text">
+                                <b>@movie?.Description</b>
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+}
+
+@code {
+    List<MovieModel>? Movies = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Movies = MovieReviewService?.GetMovies();
+    }
+}
